@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Sistema de Votación</title>
+    <link rel="stylesheet" href="../styles/admin.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Panel de Control</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="#">
+                    <i class="fas fa-chart-bar"></i> Resultados
+                </a>
+                <a href="#">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+                <a href="../index.html" class="logout">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Panel de Administración</h1>
+                <div class="user-info">
+                    <span>Administrador</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="card">
+                    <h2>Resultados de la Votación</h2>
+                    <div class="results-container">
+                        <div class="result-item">
+                            <span class="result-label">A Favor:</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 65%;">65%</div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">En Contra:</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 25%;">25%</div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Abstenciones:</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 10%;">10%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Acciones Rápidas</h2>
+                    <div class="quick-actions">
+                        <button class="btn-primary">
+                            <i class="fas fa-download"></i> Exportar Resultados
+                        </button>
+                        <button class="btn-secondary">
+                            <i class="fas fa-sync"></i> Actualizar Datos
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+</body>
+</html>
