@@ -3,24 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Sistema de Votación</title>
+    <title>Panel de Administración</title>
     <link rel="stylesheet" href="../styles/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="admin-wrapper">
-        <!-- Sidebar -->
-        <div class="sidebar">
+    <div class="admin-container">
+        <!-- Barra lateral -->
+        <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h2>Panel de Control</h2>
+                <button class="toggle-sidebar" id="toggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
             <nav class="sidebar-nav">
-                <a href="#" class="active">
+                <a href="#" class="active" data-section="inicio">
                     <i class="fas fa-home"></i> Inicio
                 </a>
-                <a href="#">
+                <a href="#" data-section="preguntas">
+                    <i class="fas fa-question-circle"></i> Preguntas
+                </a>
+                <a href="#" data-section="resultados">
                     <i class="fas fa-chart-bar"></i> Resultados
                 </a>
-                <a href="#">
+                <a href="#" data-section="configuracion">
                     <i class="fas fa-cog"></i> Configuración
                 </a>
                 <a href="../index.html" class="logout">
@@ -29,27 +36,19 @@
             </nav>
         </div>
 
-        <!-- Main Content -->
+        <!-- Contenido principal -->
         <main class="main-content">
-            <header class="content-header">
-                <h1>Panel de Administración</h1>
-                <div class="user-info">
-                    <span>Administrador</span>
-                    <i class="fas fa-user-circle"></i>
-                </div>
-            </header>
-
-            <div class="content-body">
-                <div class="card">
-                    <h2>Resultados de la Votación</h2>
-                    <div class="results-container">
-                        <div class="result-item">
-                            <span class="result-label">A Favor:</span>
-                            <div class="progress-bar">
-                                <div class="progress" style="width: 65%;">65%</div>
-                            </div>
-                        </div>
-                        <div class="result-item">
+            <!-- Sección de Inicio -->
+            <section id="inicio" class="content-section active">
+                <header class="content-header">
+                    <h1>Bienvenido al Panel de Administración</h1>
+                    <p>Gestiona las votaciones y revisa los resultados</p>
+                </header>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <i class="fas fa-question"></i>
+                        <h3>Pregunta Actual</h3>
+                        <p id="pregunta-actual">Cargando...</p>
                             <span class="result-label">En Contra:</span>
                             <div class="progress-bar">
                                 <div class="progress" style="width: 25%;">25%</div>
