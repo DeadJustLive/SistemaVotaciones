@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="../styles/form.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Votaciones</h1>
+        <label for="usuario">RUN:</label>
+        <input type="text" id="usuario" name="usuario" placeholder="Ingrese su run">
+
+        <!-- Radio button A favor -->
+        <input type="radio" id="favor" name="voto" value="favor" class="inp-cbx" style="display: none;">
+        <label for="favor" class="cbx">
+            <span>
+                <svg width="12px" height="9px" viewbox="0 0 12 9">
+                    <polyline points="1 5 4 8 11 1"></polyline>
+                </svg>
+            </span>
+            <span>A favor</span>
+        </label>
+
+        <!-- Radio button En Contra -->
+        <input type="radio" id="contra" name="voto" value="contra" class="inp-cbx" style="display: none;">
+        <label for="contra" class="cbx">
+            <span>
+                <svg width="12px" height="9px" viewbox="0 0 12 9">
+                    <polyline points="1 5 4 8 11 1"></polyline>
+                </svg>
+            </span>
+            <span>En Contra</span>
+        </label>
+
+        <!-- Radio button Abstención -->
+        <input type="radio" id="abstencion" name="voto" value="abstencion" class="inp-cbx" style="display: none;">
+        <label for="abstencion" class="cbx">
+            <span>
+                <svg width="12px" height="9px" viewbox="0 0 12 9">
+                    <polyline points="1 5 4 8 11 1"></polyline>
+                </svg>
+            </span>
+            <span>Abstención</span>
+        </label>
+        <button type="submit">Enviar</button>
+    </div>
+</body>
+</html>

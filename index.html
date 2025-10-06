@@ -1,0 +1,54 @@
+<!-- Declaración del tipo de documento y configuración inicial -->
+<!DOCTYPE html>
+<html lang="es">
+<!-- Sección de metadatos y enlaces -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<!-- Contenido visible de la página -->
+<body>
+    <script>
+        // Cargar el formulario de login inicialmente
+        fetch('clases/login.html')
+            .then(response => response.text())
+            .then(data => {
+                document.body.innerHTML += data;
+            })
+            .catch(error => console.error('Error cargando login:', error));
+
+        // Función para manejar el envío del formulario
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const usuario = document.getElementById('usuario').value;
+            const password = document.getElementById('password').value;
+
+            if (usuario.trim() === '' || password.trim() === '') {
+                alert('Por favor, ingresa usuario y contraseña.');
+                return;
+            }
+
+            // Cargar el navbar y reemplazar el contenido
+            fetch('clases/navbar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.innerHTML = data;
+                })
+                .catch(error => console.error('Error cargando navbar:', error));
+        }
+
+        // Usar MutationObserver para detectar cuando el formulario se carga
+        const observer = new MutationObserver(() => {
+            const form = document.getElementById('loginForm');
+            if (form) {
+                form.addEventListener('submit', handleLogin);
+                observer.disconnect();  // Deja de observar una vez agregado
+            }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    </script>
+</body>
+</html>

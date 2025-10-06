@@ -1,0 +1,80 @@
+
+@media screen and ( max-height:550px ){
+    .info{
+      display:none;
+    }
+}
+@media screen and ( max-width:450px ){
+    h1{
+      font-size:7.5vw;
+    }
+}
+
+/* Estilos generales para el cuerpo de la página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2c7ffca8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* Centra verticalmente en la página */
+    margin: 0;
+}
+
+
+
+/* Estilos para el contenedor principal de login */
+.login-container {
+    background-color: white;  /* Fondo blanco para la caja */
+    border: 1px solid #333;   /* Borde sólido */
+    border-radius: 10px;      /* Bordes redondeados para un look moderno */
+    padding: 20px;            /* Espacio interno */
+    width: 300px;             /* Ancho fijo, puedes ajustarlo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra sutil para profundidad */
+    text-align: center;       /* Centra el texto dentro */
+}
+
+
+
+/* Estilos para el título dentro del contenedor */
+.login-container h1 {
+    color: #333;  /* Color del título */
+    margin-bottom: 20px;
+}
+
+/* Estilos para las etiquetas (labels) */
+.login-container label {
+    display: block;  /* Cada label en su propia línea */
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Estilos para los campos de entrada (inputs) */
+.login-container input {
+    width: 100%;  /* Inputs ocupan todo el ancho de la caja */
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;  /* Incluye padding en el ancho total */
+}
+
+/* Estilos para el botón de envío */
+.login-container button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Efecto hover para el botón */
+.login-container button:hover {
+    background-color: #0056b3;  /* Efecto hover */
+}
+
+
+
