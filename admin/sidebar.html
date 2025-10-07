@@ -1,61 +1,216 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="flex items-center justify-center w-screen h-screen p-10 space-x-6 bg-gray-100">
-    <!-- Sidebar Component -->
-    <div class="flex flex-col items-center w-64 h-full overflow-hidden text-gray-700 bg-white rounded-lg shadow-lg">
-        <!-- Logo -->
-        <div class="flex items-center justify-center w-full px-4 py-6">
-            <h1 class="text-2xl font-bold text-indigo-600">Sistema de Votación</h1>
-        </div>
+<!-- Sidebar -->
+<div id="sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen bg-white shadow-lg transition-all duration-300 ease-in-out">
+    <!-- Logo and Toggle Button -->
+    <div class="flex items-center justify-between w-full px-4 py-4 border-b">
+        <h1 class="text-2xl font-bold text-indigo-600 whitespace-nowrap">Sistema de Votación</h1>
+        <button id="toggleSidebar" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+    </div>
 
-        <!-- Navigation Links -->
-        <div class="w-full px-2">
-            <!-- Votación -->
-            <a href="#" class="flex items-center w-full px-4 py-3 mt-2 text-indigo-600 bg-indigo-100 rounded-lg">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                </svg>
-                <span class="ml-3 font-medium">Votación</span>
-            </a>
+    <!-- Navigation Links -->
+    <nav class="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+        <!-- Dashboard -->
+        <a href="dashboard.html" class="flex items-center w-full px-4 py-3 text-indigo-600 bg-indigo-50 rounded-lg mx-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+            <span class="ml-3 font-medium">Dashboard</span>
+        </a>
 
-            <!-- Resultados -->
-            <a href="#" class="flex items-center w-full px-4 py-3 mt-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                </svg>
-                <span class="ml-3 font-medium">Resultados</span>
-            </a>
+        <!-- Resultados -->
+        <a href="respuestas.html" class="flex items-center w-full px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg mx-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span class="ml-3 font-medium">Resultados</span>
+        </a>
 
-            <!-- Configuraciones -->
-            <a href="#" class="flex items-center w-full px-4 py-3 mt-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        <!-- Configuraciones -->
+        <div class="space-y-1">
+            <a href="#" class="flex items-center w-full px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg mx-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <span class="ml-3 font-medium">Configuraciones</span>
+                <svg class="w-4 h-4 ml-auto transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
             </a>
+            
+            <!-- Submenú de Configuraciones -->
+            <div class="pl-4 space-y-1">
+                <a href="formulario.html" class="flex items-center w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg mx-2">
+                    <span class="w-1 h-1 rounded-full bg-gray-500 mr-3"></span>
+                    <span>Formulario de Votación</span>
+                </a>
+                <a href="#" class="flex items-center w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg mx-2">
+                    <span class="w-1 h-1 rounded-full bg-gray-500 mr-3"></span>
+                    <span>Opciones del Sistema</span>
+                </a>
+            </div>
         </div>
+    </nav>
 
-        <!-- User Profile -->
-        <div class="flex items-center w-full p-4 mt-auto bg-gray-50">
+    <!-- User Profile -->
+    <div class="absolute bottom-0 left-0 right-0 p-4 border-t bg-white transition-all duration-300 ease-in-out">
+        <div class="flex items-center">
             <img class="w-10 h-10 rounded-full" src="https://via.placeholder.com/40" alt="User">
             <div class="ml-3">
-                <p class="text-sm font-medium text-gray-700">Administrador</p>
+                <p class="text-sm font-medium text-gray-700 user-info">Administrador</p>
                 <p class="text-xs text-gray-500">admin@ejemplo.com</p>
             </div>
         </div>
+        <button id="logoutBtn" class="w-full mt-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Cerrar sesión
+        </button>
     </div>
+</div>
 
-    <!-- Main Content -->
-    <div class="flex-1 h-full bg-white rounded-lg shadow-lg p-6">
-        <h2 class="text-2xl font-semibold text-gray-800">Bienvenido al Panel de Administración</h2>
-        <p class="mt-2 text-gray-600">Selecciona una opción del menú para comenzar.</p>
-    </div>
-</body>
+<!-- Script para manejar el cierre de sesión -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Manejar cierre de sesión
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                sessionStorage.removeItem('isAuthenticated');
+                sessionStorage.removeItem('usuario');
+                window.location.href = 'login.html';
+            });
+        }
+        
+        // Resaltar la página activa
+        const currentPage = window.location.pathname.split('/').pop();
+        document.querySelectorAll('nav a').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('bg-indigo-50', 'text-indigo-600');
+            }
+        });
+    });
+</script>
+
+<!-- Script para manejar el sidebar -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elementos del DOM
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('toggleSidebar');
+        const mainContent = document.querySelector('main');
+        const logoText = document.querySelector('.logo-text');
+        const navItems = document.querySelectorAll('nav a, nav div > a');
+        const submenuItems = document.querySelectorAll('.submenu-item');
+        
+        // Estado inicial
+        let isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+        
+        // Aplicar estado inicial
+        function applySidebarState() {
+            if (isCollapsed) {
+                // Estado colapsado
+                sidebar.classList.add('w-20');
+                sidebar.classList.remove('w-64');
+                if (mainContent) {
+                    mainContent.classList.add('ml-20');
+                    mainContent.classList.remove('ml-64');
+                }
+                if (logoText) logoText.classList.add('hidden');
+                
+                navItems.forEach(item => {
+                    item.classList.add('justify-center', 'px-2', 'py-4');
+                    const text = item.querySelector('span:not(.flex-shrink-0)');
+                    if (text) text.classList.add('hidden');
+                });
+                
+                submenuItems.forEach(item => item.classList.add('hidden'));
+                
+                if (toggleButton) {
+                    const svg = toggleButton.querySelector('svg');
+                    if (svg) svg.classList.add('rotate-180');
+                }
+            } else {
+                // Estado expandido
+                sidebar.classList.remove('w-20');
+                sidebar.classList.add('w-64');
+                
+                if (mainContent) {
+                    mainContent.classList.remove('ml-20');
+                    mainContent.classList.add('ml-64');
+                }
+                
+                if (logoText) logoText.classList.remove('hidden');
+                
+                navItems.forEach(item => {
+                    item.classList.remove('justify-center', 'px-2', 'py-4');
+                    const text = item.querySelector('span:not(.flex-shrink-0)');
+                    if (text) text.classList.remove('hidden');
+                });
+                
+                submenuItems.forEach(item => item.classList.remove('hidden'));
+                
+                if (toggleButton) {
+                    const svg = toggleButton.querySelector('svg');
+                    if (svg) svg.classList.remove('rotate-180');
+                }
+            }
+        }
+        
+        // Manejar clic en el botón de toggle
+        if (toggleButton) {
+            toggleButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                isCollapsed = !isCollapsed;
+                localStorage.setItem('sidebarCollapsed', isCollapsed);
+                applySidebarState();
+            });
+        }
+        
+        // Ajustar el ancho del sidebar en dispositivos móviles
+        function handleResize() {
+            if (window.innerWidth < 1024) {
+                // Modo móvil
+                sidebar.classList.add('-translate-x-full');
+                if (mainContent) {
+                    mainContent.classList.remove('ml-20', 'ml-64');
+                }
+            } else {
+                // Modo escritorio
+                sidebar.classList.remove('-translate-x-full');
+                if (mainContent) {
+                    if (isCollapsed) {
+                        mainContent.classList.add('ml-20');
+                        mainContent.classList.remove('ml-64');
+                    } else {
+                        mainContent.classList.remove('ml-20');
+                        mainContent.classList.add('ml-64');
+                    }
+                }
+            }
+        }
+        
+        // Inicializar y manejar redimensionamiento
+        applySidebarState();
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        
+        // Manejar clic en el overlay en móviles (si existe)
+        const overlay = document.getElementById('sidebarOverlay');
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                if (window.innerWidth < 1024) {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
 </html>

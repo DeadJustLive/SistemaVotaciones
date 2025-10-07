@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respuestas - Panel de Administración</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Incluir Sidebar -->
+    <div id="sidebar-container">
+        <!-- El contenido del sidebar se cargará aquí mediante JavaScript -->
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="lg:ml-64 p-6">
+        <header class="bg-white shadow-sm rounded-lg p-4 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Resultados de Votación</h1>
+                    <p class="text-gray-600">Visualización y análisis de los votos emitidos</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <button id="exportCsv" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                        <i class="fas fa-file-export mr-2"></i>
+                        Exportar a CSV
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Filtros -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Filtros</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="dateFrom" class="block text-sm font-medium text-gray-700 mb-1">Fecha desde</label>
+                    <input type="date" id="dateFrom" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="dateTo" class="block text-sm font-medium text-gray-700 mb-1">Fecha hasta</label>
+                    <input type="date" id="dateTo" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="candidateFilter" class="block text-sm font-medium text-gray-700 mb-1">Candidato</label>
+                    <select id="candidateFilter" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option value="">Todos los candidatos</option>
+                        <option value="1">María González</option>
+                        <option value="2">Carlos López</option>
+                        <option value="3">Ana Martínez</option>
+                        <option value="blanco">Voto en blanco</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button id="applyFilters" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                    Aplicar filtros
+                </button>
+                <button id="resetFilters" class="ml-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium">
+                    Limpiar
+                </button>
+            </div>
+        </div>
+
+        <!-- Resumen de resultados -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <!-- Tarjeta de total de votos -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Total de Votos</p>
+                        <p class="text-3xl font-bold text-gray-800">1,845</p>
+                    </div>
+                    <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                        <i class="fas fa-vote-yea text-2xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-500">Meta: 2,500 votos</span>
+                        <span class="font-medium">74%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                        <div class="bg-blue-600 h-2 rounded-full" style="width: 74%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candidato más votado -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Candidato más votado</p>
+                        <p class="text-xl font-bold text-gray-800">María González</p>
+                        <p class="text-2xl font-semibold text-blue-600">845 votos</p>
+                    </div>
+                    <div class="p-3 rounded-full bg-green-100 text-green-600">
+                        <i class="fas fa-trophy text-2xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-sm text-gray-500">45.8% del total de votos</span>
+                </div>
+            </div>
+
+            <!-- Participación -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Tasa de participación</p>
+                        <p class="text-3xl font-bold text-gray-800">68%</p>
+                    </div>
+                    <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                        <i class="fas fa-chart-line text-2xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-sm text-gray-500">+5.3% vs elección anterior</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos principales -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- Gráfico de barras -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Resultados por Candidato</h2>
+                <div class="h-80">
+                    <canvas id="candidatesChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico circular -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Distribución de Votos</h2>
+                <div class="h-80">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de resultados -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-gray-800">Detalle de Votos</h2>
+                <div class="relative">
+                    <input type="text" placeholder="Buscar..." class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <div class="absolute left-3 top-2.5 text-gray-400">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Voto</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">RUT Votante</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Candidato</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Partido</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha y Hora</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="votesTableBody">
+                        <!-- Los datos se cargarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
+                <div class="flex-1 flex justify-between sm:hidden">
+                    <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        Anterior
+                    </button>
+                    <button class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        Siguiente
+                    </button>
+                </div>
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Mostrando <span class="font-medium" id="startItem">1</span> a <span class="font-medium" id="endItem">10</span> de <span class="font-medium" id="totalItems">0</span> resultados
+                        </p>
+                    </div>
+                    <div>
+                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                            <button id="prevPage" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only">Anterior</span>
+                                <i class="fas fa-chevron-left h-5 w-5"></i>
+                            </button>
+                            <button class="bg-blue-50 border-blue-500 text-blue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                1
+                            </button>
+                            <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                2
+                            </button>
+                            <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                3
+                            </button>
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                ...
+                            </span>
+                            <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                5
+                            </button>
+                            <button id="nextPage" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only">Siguiente</span>
+                                <i class="fas fa-chevron-right h-5 w-5"></i>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificar autenticación
+        document.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('isAuthenticated') !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Cargar el sidebar
+            fetch('sidebar.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('sidebar-container').innerHTML = html;
+                    
+                    // Actualizar el nombre de usuario en el sidebar si existe
+                    const usuario = sessionStorage.getItem('usuario');
+                    if (usuario) {
+                        const userElements = document.querySelectorAll('.user-info');
+                        userElements.forEach(el => {
+                            el.textContent = usuario;
+                        });
+                    }
+                    
+                    // Inicializar la página
+                    initCharts();
+                    loadVotesTable();
+                    updatePagination();
+                });
+        });
+
+        // Datos de ejemplo
+        const sampleData = [
+            { id: 'V1001', rut: '12.345.678-9', candidate: 'María González', party: 'Partido Verde', date: '2023-10-06 14:32:15', status: 'Válido' },
+            { id: 'V1002', rut: '23.456.789-0', candidate: 'Carlos López', party: 'Partido Azul', date: '2023-10-06 14:35:42', status: 'Válido' },
+            { id: 'V1003', rut: '34.567.890-1', candidate: 'Ana Martínez', party: 'Partido Rojo', date: '2023-10-06 14:38:21', status: 'Válido' },
+            { id: 'V1004', rut: '45.678.901-2', candidate: 'Voto en Blanco', party: 'N/A', date: '2023-10-06 14:40:05', status: 'Válido' },
+            { id: 'V1005', rut: '56.789.012-3', candidate: 'María González', party: 'Partido Verde', date: '2023-10-06 14:45:33', status: 'Válido' },
+            { id: 'V1006', rut: '67.890.123-4', candidate: 'Carlos López', party: 'Partido Azul', date: '2023-10-06 14:48:19', status: 'Válido' },
+            { id: 'V1007', rut: '78.901.234-5', candidate: 'Ana Martínez', party: 'Partido Rojo', date: '2023-10-06 14:51:27', status: 'Válido' },
+            { id: 'V1008', rut: '89.012.345-6', candidate: 'María González', party: 'Partido Verde', date: '2023-10-06 14:55:41', status: 'Válido' },
+            { id: 'V1009', rut: '90.123.456-7', candidate: 'Voto en Blanco', party: 'N/A', date: '2023-10-06 14:58:12', status: 'Válido' },
+            { id: 'V1010', rut: '01.234.567-8', candidate: 'Carlos López', party: 'Partido Azul', date: '2023-10-06 15:02:35', status: 'Válido' }
+        ];
+
+        // Cargar el sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+                initCharts();
+                loadVotesTable();
+                updatePagination();
+            });
+
+        // Inicializar gráficos
+        function initCharts() {
+            // Gráfico de barras de candidatos
+            const candidatesCtx = document.getElementById('candidatesChart').getContext('2d');
+            new Chart(candidatesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['María González', 'Carlos López', 'Ana Martínez', 'Voto en Blanco'],
+                    datasets: [{
+                        label: 'Votos',
+                        data: [45, 30, 15, 10],
+                        backgroundColor: [
+                            '#10B981',
+                            '#3B82F6',
+                            '#EF4444',
+                            '#9CA3AF'
+                        ],
+                        borderWidth: 0,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.y} votos (${context.parsed.y}%)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de distribución
+            const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+            new Chart(distributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['María González', 'Carlos López', 'Ana Martínez', 'Voto en Blanco'],
+                    datasets: [{
+                        data: [45, 30, 15, 10],
+                        backgroundColor: [
+                            '#10B981',
+                            '#3B82F6',
+                            '#EF4444',
+                            '#9CA3AF'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${percentage}% (${value} votos)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Cargar tabla de votos
+        function loadVotesTable() {
+            const tbody = document.getElementById('votesTableBody');
+            tbody.innerHTML = '';
+            
+            sampleData.forEach(vote => {
+                const row = document.createElement('tr');
+                const statusClass = vote.status === 'Válido' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
+                
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${vote.id}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vote.rut}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${vote.candidate}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vote.party}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vote.date}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+                            ${vote.status}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Actualizar paginación
+        function updatePagination() {
+            const totalItems = sampleData.length;
+            document.getElementById('totalItems').textContent = totalItems;
+            document.getElementById('endItem').textContent = Math.min(10, totalItems);
+        }
+
+        // Exportar a CSV
+        document.getElementById('exportCsv').addEventListener('click', function() {
+            const csv = Papa.unparse({
+                fields: ['ID', 'RUT', 'Candidato', 'Partido', 'Fecha y Hora', 'Estado'],
+                data: sampleData.map(vote => [
+                    vote.id,
+                    vote.rut,
+                    vote.candidate,
+                    vote.party,
+                    vote.date,
+                    vote.status
+                ])
+            });
+            
+            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `resultados_votacion_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Manejar filtros
+        document.getElementById('applyFilters').addEventListener('click', function() {
+            // Aquí iría la lógica para aplicar filtros
+            console.log('Aplicando filtros...');
+        });
+
+        document.getElementById('resetFilters').addEventListener('click', function() {
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            document.getElementById('candidateFilter').value = '';
+            // Aquí iría la lógica para resetear los filtros
+            console.log('Filtros reiniciados');
+        });
+
+        // Manejar la paginación
+        document.getElementById('prevPage').addEventListener('click', function() {
+            // Lógica para ir a la página anterior
+            console.log('Página anterior');
+        });
+
+        document.getElementById('nextPage').addEventListener('click', function() {
+            // Lógica para ir a la página siguiente
+            console.log('Página siguiente');
+        });
+    </script>
+</body>
+</html>
